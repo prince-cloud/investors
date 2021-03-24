@@ -1,0 +1,75 @@
+<div>
+
+    <!-- put component code here -->
+    <div class="d-flex flex-row justify-content-center align-items-center">
+
+        <div class="row w-100 py-5 align-items-center">
+
+            <div class="col-md-6 col-7">
+                <input id="input" class="form-control" name="q" unicorn:model="filter_value" type="text"
+                    placeholder="search here">
+            </div>
+            <div class="col-md-3 col-3">
+                <select unicorn:model="filter_by" class="form-control" name="filter_type">
+                    <option value="" selected disabled hidden>Search by</option>
+                    <option value="all" selected>All</option>
+                    {% for filter_type in filters_list %}
+                    <option value="{{ filter_type.0}}">{{ filter_type.1 }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col-md-3 col-2">
+                <span class="waves-input-wrapper waves-effect waves-light">
+                    <input type="submit" unicorn:click="filter" value="Search" class="btn btn-primary">
+                </span>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+
+            <div class="d-flex flex-row justify-content-between">
+                <div class="right">
+                    <a href="{% url 'investors:add-investor' %}" class="btn btn-secondary"> + Add Investor </a>
+                    <a href="{% url 'investors:logout' %}" class="btn btn-danger"> logout </a>
+                </div>
+                <div class="left">
+                    <a href="{% url 'investors:export_to_csv' %}?filter_by={{ filter_by }}&filter_value={{filter_value}}" class="btn btn-default">Export to .csv</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <table class="table shadow table-striped table-hover white-bg">
+        <thead class="bg-dark text-white ">
+            <tr>
+                <th> # </th>
+                <th> Full Name</th>
+                <th> Sex </th>
+                <th> Email </th>
+                <th> Phone # </th>
+                <th> Country To Invest </th>
+                <th> City </th>
+                <th> State </th>
+                <th> Zip code </th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for investor in investors %}
+            <tr>
+                <td>{{ forloop.counter}}</td>
+                <td class="text-uppercase">{{ investor.user.last_name }} {{ investor.user.first_name }}</td>
+                <td>{{ investor.sex }}</td>
+                <td>{{ investor.user.email}}</td>
+                <td>{{ investor.phone }}</td>
+                <td>{{ investor.country_to_invest }}</td>
+                <td>{{ investor.city}}</td>
+                <td>{{ investor.state}}</td>
+                <td>{{ investor.zip_code}}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
